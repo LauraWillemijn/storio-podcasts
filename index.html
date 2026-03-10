@@ -369,24 +369,29 @@
     btn.disabled = true;
 
     try {
-      // Mail 1: naar Hielke
+      // Mail 1: naar Hielke (kritiek — als dit faalt stoppen we)
       await emailjs.send(EMAILJS_SERVICE_ID, TEMPLATE_NAAR_HIELKE, data);
-      // Mail 2: bevestiging naar invuller
-      await emailjs.send(EMAILJS_SERVICE_ID, TEMPLATE_BEVESTIGING, data);
-
-      form.innerHTML = `
-        <div class="form-success">
-          <div class="check">✓</div>
-          <h3>Bericht ontvangen!</h3>
-          <p>Bedankt ${data.naam}. Je ontvangt een bevestiging op <strong>${data.email}</strong>.<br>
-          We nemen zo snel mogelijk contact met je op.</p>
-        </div>`;
     } catch (err) {
-      console.error('EmailJS fout:', err);
+      console.error('EmailJS fout (mail naar Hielke):', err);
       btn.textContent = 'Verstuur bericht →';
       btn.disabled = false;
-      alert('Fout: ' + (err?.text || err?.message || JSON.stringify(err)));
+      alert('Versturen mislukt: ' + (err?.text || err?.message || JSON.stringify(err)));
+      return;
     }
+
+    // Mail 2: bevestiging naar invuller (best-effort — fout = stille log)
+    try {
+      await emailjs.send(EMAILJS_SERVICE_ID, TEMPLATE_BEVESTIGING, data);
+    } catch (err2) {
+      console.warn('Bevestigingsmail niet verstuurd:', err2?.text || err2?.message || JSON.stringify(err2));
+    }
+
+    form.innerHTML = `
+      <div class="form-success">
+        <div class="check">✓</div>
+        <h3>Bericht ontvangen!</h3>
+        <p>Bedankt ${data.naam}. We nemen zo snel mogelijk contact met je op via <strong>${data.email}</strong>.</p>
+      </div>`;
   });
 </script>
 </body>
