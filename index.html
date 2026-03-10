@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Storio Podcasts</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,900&family=Fraunces:opsz,wght@9..144,700;9..144,800;9..144,900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
   :root {
     --purple:      #172232;
@@ -143,6 +144,11 @@
   .fg select option { background:#f3f4f6; }
   .form-submit { background:var(--orange); color:#fff; border:none; padding:17px; border-radius:100px; font-size:16px; font-weight:600; cursor:pointer; transition:background .2s; margin-top:4px; }
   .form-submit:hover { background:var(--orange-dark); }
+  .form-submit:disabled { opacity:.6; cursor:not-allowed; }
+  .form-success { background:#f0faf5; border:1.5px solid #2e9e60; border-radius:12px; padding:36px; text-align:center; }
+  .form-success .check { font-size:36px; margin-bottom:16px; }
+  .form-success h3 { font-size:20px; font-weight:700; color:var(--dark); margin-bottom:10px; }
+  .form-success p { font-size:15px; color:var(--muted); line-height:1.7; }
   /* ── FOOTER ── */
   footer { background:var(--accent-dark); padding:60px 60px 36px; }
   .footer-top { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:60px; margin-bottom:60px; }
@@ -274,17 +280,17 @@
       <p class="contact-detail"><strong>Algemeen</strong><br><a href="mailto:hallo@storiopodcasts.nl">hallo@storiopodcasts.nl</a></p>
       <p class="contact-detail"><strong>We horen graag van je.</strong></p>
     </div>
-    <form class="contact-form" onsubmit="return false;">
+    <form class="contact-form" id="contactForm">
       <div class="form-row">
-        <div class="fg"><label>Naam</label><input type="text" placeholder="Jouw naam"></div>
-        <div class="fg"><label>E-mail</label><input type="email" placeholder="jouw@email.nl"></div>
+        <div class="fg"><label>Naam</label><input name="naam" type="text" placeholder="Jouw naam" required></div>
+        <div class="fg"><label>E-mail</label><input name="email" type="email" placeholder="jouw@email.nl" required></div>
       </div>
-      <div class="fg"><label>Bedrijf of organisatie</label><input type="text" placeholder="Optioneel"></div>
+      <div class="fg"><label>Bedrijf of organisatie</label><input name="bedrijf" type="text" placeholder="Optioneel"></div>
       <div class="fg">
         <label>Waar ben je naar op zoek?</label>
-        <select><option value="" disabled selected>Maak een keuze</option><option>Volledige podcast productie</option><option>Concept & format ontwikkeling</option><option>Opname & editing</option><option>Strategie & groei</option><option>Ik weet het nog niet</option></select>
+        <select name="dienst"><option value="" disabled selected>Maak een keuze</option><option>Volledige podcast productie</option><option>Concept & format ontwikkeling</option><option>Opname & editing</option><option>Strategie & groei</option><option>Ik weet het nog niet</option></select>
       </div>
-      <div class="fg"><label>Vertel ons over jouw verhaal</label><textarea placeholder="Wat wil je vertellen? Voor wie? Wat heb je al?"></textarea></div>
+      <div class="fg"><label>Vertel ons over jouw verhaal</label><textarea name="bericht" placeholder="Wat wil je vertellen? Voor wie? Wat heb je al?" required></textarea></div>
       <button type="submit" class="form-submit">Verstuur bericht →</button>
     </form>
   </div>
@@ -308,5 +314,80 @@
     <p>Stories · Conversations · Messages</p>
   </div>
 </footer>
+<script>
+  // ─── EmailJS configuratie ─────────────────────────────────────────────────
+  // Stap 1: maak een gratis account op https://emailjs.com
+  // Stap 2: voeg Gmail toe als Email Service → kopieer de Service ID hieronder
+  // Stap 3: maak twee Email Templates aan (zie sjablonen hieronder) → kopieer de Template IDs
+  // Stap 4: kopieer je Public Key (Account → General)
+  const EMAILJS_PUBLIC_KEY   = 'JOUW_PUBLIC_KEY';       // Account → General
+  const EMAILJS_SERVICE_ID   = 'JOUW_SERVICE_ID';       // Email Services
+  const TEMPLATE_NAAR_HIELKE = 'JOUW_TEMPLATE_ID_1';   // Template: bericht aan Hielke
+  const TEMPLATE_BEVESTIGING = 'JOUW_TEMPLATE_ID_2';   // Template: bevestiging aan invuller
+
+  // ─── Template 1 — bericht aan Hielke ─────────────────────────────────────
+  // Onderwerp: Nieuw bericht via Storio Podcasts — {{naam}}
+  // Inhoud:
+  //   Naam:     {{naam}}
+  //   E-mail:   {{email}}
+  //   Bedrijf:  {{bedrijf}}
+  //   Dienst:   {{dienst}}
+  //   Bericht:  {{bericht}}
+
+  // ─── Template 2 — bevestiging aan invuller ───────────────────────────────
+  // Aan: {{email}}   (veld "To Email" instellen op {{email}})
+  // Onderwerp: Bedankt voor je bericht — Storio Podcasts
+  // Inhoud:
+  //   Hoi {{naam}},
+  //
+  //   Bedankt voor je bericht! We nemen zo snel mogelijk contact met je op.
+  //
+  //   Hier is een kopie van wat je hebt gestuurd:
+  //   ————————————————————
+  //   {{bericht}}
+  //   ————————————————————
+  //
+  //   Met vriendelijke groet,
+  //   Hielke Boersma
+  //   Storio Podcasts
+
+  emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+  document.getElementById('contactForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const btn  = form.querySelector('.form-submit');
+    const data = {
+      naam:    form.naam.value,
+      email:   form.email.value,
+      bedrijf: form.bedrijf.value || '—',
+      dienst:  form.dienst.value  || '—',
+      bericht: form.bericht.value,
+    };
+
+    btn.textContent = 'Versturen...';
+    btn.disabled = true;
+
+    try {
+      // Mail 1: naar Hielke
+      await emailjs.send(EMAILJS_SERVICE_ID, TEMPLATE_NAAR_HIELKE, data);
+      // Mail 2: bevestiging naar invuller
+      await emailjs.send(EMAILJS_SERVICE_ID, TEMPLATE_BEVESTIGING, data);
+
+      form.innerHTML = `
+        <div class="form-success">
+          <div class="check">✓</div>
+          <h3>Bericht ontvangen!</h3>
+          <p>Bedankt ${data.naam}. Je ontvangt een bevestiging op <strong>${data.email}</strong>.<br>
+          We nemen zo snel mogelijk contact met je op.</p>
+        </div>`;
+    } catch (err) {
+      console.error('EmailJS fout:', err);
+      btn.textContent = 'Verstuur bericht →';
+      btn.disabled = false;
+      alert('Er is iets misgegaan. Probeer het opnieuw of mail naar hallo@storiopodcasts.nl');
+    }
+  });
+</script>
 </body>
 </html>
