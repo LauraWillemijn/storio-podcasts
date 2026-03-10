@@ -385,7 +385,7 @@
       console.error('EmailJS fout:', err);
       btn.textContent = 'Verstuur bericht →';
       btn.disabled = false;
-      alert('Er is iets misgegaan. Probeer het opnieuw of mail naar hallo@storiopodcasts.nl');
+      alert('Fout: ' + (err?.text || err?.message || JSON.stringify(err)));
     }
   });
 </script>
