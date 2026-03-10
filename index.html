@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Storio Podcasts</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,900&family=Fraunces:opsz,wght@9..144,700;9..144,800;9..144,900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --purple:      #172232;
+    --purple-mid:  #1d2c42;
+    --accent:      #2e9e60;
+    --accent-dark: #0c1828;
+    --orange:      #2e9e60;
+    --orange-dark: #227348;
+    --dark:        #101926;
+    --muted:       rgba(17,24,39,0.48);
+    --light:       rgba(17,24,39,0.08);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { background:#fff; color:var(--dark); font-family:'DM Sans',sans-serif; overflow-x:hidden; }
+  /* ── NAV ── */
+  nav {
+    position:fixed; top:0; width:100%; z-index:100;
+    padding:0 60px; height:68px;
+    display:flex; align-items:center; justify-content:space-between;
+    background:rgba(255,255,255,0.96);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--light);
+  }
+  .nav-links { display:flex; gap:32px; list-style:none; }
+  .nav-links a { color:var(--dark); text-decoration:none; font-size:15px; font-weight:500; opacity:.65; transition:opacity .2s; }
+  .nav-links a:hover { opacity:1; color:var(--accent); }
+  .nav-cta {
+    background:var(--orange); color:#fff; border:none;
+    padding:11px 26px; border-radius:100px; font-size:14px; font-weight:600;
+    cursor:pointer; transition:background .2s;
+  }
+  .nav-cta:hover { background:var(--orange-dark); }
+  /* ── LOGO BARS ANIMATIE ── */
+  @keyframes bar-pulse {
+    0%,100% { opacity:.55; transform:scaleY(1); }
+    50%      { opacity:1;   transform:scaleY(1.08); }
+  }
+  .logo-bar { transform-origin:center; animation:bar-pulse 2.4s ease-in-out infinite; }
+  .logo-bar:nth-child(1) { animation-delay:0s; }
+  .logo-bar:nth-child(2) { animation-delay:.3s; }
+  .logo-bar:nth-child(3) { animation-delay:.6s; }
+  .logo-bar:nth-child(4) { animation-delay:.9s; }
+  .logo-bar:nth-child(5) { animation-delay:1.2s; }
+  /* ── HERO (paars) ── */
+  #hero { background:linear-gradient(135deg,#c8f9d3 0%,#cff0dc 30%,#d2ddf0 60%,#d3d9f8 100%); padding:160px 60px 110px; }
+  .hero-inner { display:block; }
+  .hero-eyebrow { font-size:12px; font-weight:600; letter-spacing:2.5px; text-transform:uppercase; color:rgba(17,24,39,0.5); margin-bottom:28px; }
+  #hero h1 { font-family:'DM Sans',sans-serif; font-size:clamp(36px,4.5vw,62px); font-weight:900; line-height:1.04; color:#101926; margin-bottom:32px; max-width:820px; }
+  .hero-btns { display:flex; gap:14px; flex-wrap:wrap; }
+  .btn-primary { background:var(--orange); color:#fff; border:none; padding:16px 36px; border-radius:100px; font-size:15px; font-weight:600; cursor:pointer; transition:background .2s; }
+  .btn-primary:hover { background:var(--orange-dark); }
+  .btn-ghost { background:transparent; color:#101926; border:1.5px solid rgba(17,24,39,0.35); padding:16px 36px; border-radius:100px; font-size:15px; font-weight:500; cursor:pointer; transition:border-color .2s; }
+  .btn-ghost:hover { border-color:#101926; }
+  /* ── INTRO (paars, iets lichter) ── */
+  #intro { padding:90px 60px; background:var(--purple-mid); display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; border-top:1px solid rgba(255,255,255,0.1); }
+  #intro h2 { font-family:'DM Sans',sans-serif; font-size:clamp(30px,3.5vw,46px); font-weight:900; line-height:1.12; color:#fff; }
+  .intro-right p { font-size:17px; font-weight:300; line-height:1.8; color:rgba(255,255,255,0.65); margin-bottom:20px; }
+  .intro-right a { color:rgba(255,255,255,0.85); font-weight:600; font-size:15px; text-decoration:none; }
+  .intro-right a:hover { color:#fff; text-decoration:underline; }
+  .divider { border:none; border-top:1.5px solid var(--light); }
+  /* ── STATS (wit) ── */
+  #stats { background:#fff; padding:70px 60px; display:grid; grid-template-columns:repeat(3,1fr); border-top:1.5px solid var(--light); border-bottom:1.5px solid var(--light); }
+  .stat { padding-right:40px; }
+  .stat+.stat { border-left:1.5px solid var(--light); padding-left:40px; }
+  .stat-num { font-family:'DM Sans',sans-serif; font-size:64px; font-weight:900; color:var(--accent); line-height:1; margin-bottom:10px; }
+  .stat-label { font-size:15px; color:var(--muted); line-height:1.5; }
+  /* ── DIENSTEN (donker) ── */
+  #diensten { padding:100px 60px; background:var(--purple); }
+  .section-label { font-size:12px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--accent); opacity:.9; margin-bottom:18px; }
+  #diensten h2 { font-family:'DM Sans',sans-serif; font-size:clamp(36px,4vw,54px); font-weight:900; color:#fff; margin-bottom:60px; max-width:560px; line-height:1.1; }
+  .diensten-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(255,255,255,0.07); }
+  .dienst { background:var(--purple); padding:44px 36px 40px; transition:background .2s; }
+  .dienst:hover { background:var(--purple-mid); }
+  .dienst-n { font-family:'DM Sans',sans-serif; font-size:12px; font-weight:700; color:var(--accent); opacity:.5; margin-bottom:20px; display:block; letter-spacing:1px; }
+  .dienst h3 { font-size:19px; font-weight:700; margin-bottom:12px; color:#fff; line-height:1.25; }
+  .dienst p { font-size:15px; line-height:1.75; color:rgba(255,255,255,0.5); }
+  .dienst-featured { grid-column:1/-1; border-top:1px solid rgba(255,255,255,0.07); display:flex; gap:48px; align-items:center; }
+  .dienst-featured .dienst-n { flex-shrink:0; }
+  .dienst-featured h3 { font-size:22px; flex-shrink:0; width:260px; margin-bottom:0; }
+  .dienst-featured p { font-size:15px; flex:1; }
+  /* ── WERKWIJZE (donker) ── */
+  #werkwijze { padding:100px 60px; background:var(--purple-mid); }
+  #werkwijze h2 { font-family:'DM Sans',sans-serif; font-size:clamp(36px,4vw,54px); font-weight:900; color:#fff; margin-bottom:60px; line-height:1.1; }
+  .stappen { display:grid; grid-template-columns:1fr 1fr; gap:0; background:rgba(255,255,255,0.06); }
+  .stap { background:var(--purple-mid); padding:36px 40px; border-bottom:1px solid rgba(255,255,255,0.07); display:grid; grid-template-columns:48px 1fr; gap:16px; align-items:start; }
+  .stap:nth-child(even) { border-left:1px solid rgba(255,255,255,0.07); }
+  .stap-n { font-family:'DM Sans',sans-serif; font-size:26px; font-weight:900; color:var(--accent); opacity:.35; line-height:1; }
+  .stap h4 { font-size:16px; font-weight:700; margin-bottom:7px; color:#fff; }
+  .stap p { font-size:14px; color:rgba(255,255,255,0.5); line-height:1.65; }
+  /* ── OVER (wit) ── */
+  #over { padding:100px 60px; background:#fff; }
+  .over-grid { display:grid; grid-template-columns:5fr 7fr; gap:100px; align-items:start; }
+  .over-left h2 { font-family:'DM Sans',sans-serif; font-size:clamp(34px,4vw,50px); font-weight:900; color:var(--dark); line-height:1.1; margin-bottom:28px; }
+  .over-left h2 em { color:var(--accent); font-style:normal; }
+  .over-left a { color:var(--accent); font-weight:600; font-size:15px; text-decoration:none; }
+  .over-left a:hover { text-decoration:underline; }
+  .over-right p { font-size:17px; font-weight:300; line-height:1.8; color:var(--muted); margin-bottom:20px; }
+  .values { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:40px; }
+  .val { background:var(--purple); padding:22px; border-top:3px solid var(--accent); }
+  .val h5 { font-size:14px; font-weight:700; margin-bottom:6px; color:#fff; }
+  .val p { font-size:13px; color:rgba(255,255,255,0.5); line-height:1.55; }
+  /* ── FOUNDER ── */
+  .founder { display:grid; grid-template-columns:220px 1fr; gap:48px; align-items:start; margin-top:70px; padding-top:60px; border-top:1.5px solid var(--light); }
+  .founder-img { width:220px; height:280px; object-fit:cover; object-position:center 20%; border-radius:6px; display:block; }
+  .founder-name { font-size:21px; font-weight:800; color:var(--dark); margin-bottom:4px; font-family:'DM Sans',sans-serif; }
+  .founder-role { font-size:12px; font-weight:700; color:var(--accent); letter-spacing:2px; text-transform:uppercase; margin-bottom:28px; }
+  .founder-quote { font-size:16px; font-style:italic; line-height:1.85; color:rgba(16,25,38,0.62); margin-bottom:16px; }
+  .founder-quote:last-child { margin-bottom:0; }
+  /* ── CASES (donker) ── */
+  #cases { padding:100px 60px; background:var(--purple); }
+  #cases h2 { font-family:'DM Sans',sans-serif; font-size:clamp(36px,4vw,54px); font-weight:900; color:#fff; margin-bottom:60px; line-height:1.1; }
+  .cases-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(255,255,255,0.07); }
+  .case { background:var(--purple); padding:40px 36px; transition:background .2s; }
+  .case:hover { background:var(--purple-mid); }
+  .case-tag { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--accent); opacity:.9; margin-bottom:16px; display:block; }
+  .case h3 { font-family:'DM Sans',sans-serif; font-size:22px; font-weight:700; margin-bottom:12px; color:#fff; line-height:1.25; }
+  .case p { font-size:14px; color:rgba(255,255,255,0.5); line-height:1.7; margin-bottom:24px; }
+  .case a { color:var(--accent); font-weight:600; font-size:14px; text-decoration:none; }
+  .case a:hover { text-decoration:underline; }
+  /* ── CONTACT (wit) ── */
+  #contact { padding:100px 60px; background:#fff; }
+  .contact-wrap { display:grid; grid-template-columns:5fr 7fr; gap:100px; align-items:start; }
+  .contact-left h2 { font-family:'DM Sans',sans-serif; font-size:clamp(34px,4vw,50px); font-weight:900; color:var(--dark); line-height:1.1; margin-bottom:20px; }
+  .contact-left p { font-size:16px; font-weight:300; color:var(--muted); line-height:1.75; margin-bottom:20px; }
+  .contact-detail { font-size:14px; color:var(--muted); margin-bottom:8px; }
+  .contact-detail a { color:var(--accent); text-decoration:none; font-weight:500; }
+  .contact-form { display:flex; flex-direction:column; gap:16px; }
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .fg { display:flex; flex-direction:column; gap:7px; }
+  .fg label { font-size:13px; font-weight:600; color:var(--dark); opacity:.55; letter-spacing:.3px; }
+  .fg input,.fg textarea,.fg select { background:#f3f4f6; border:1.5px solid transparent; color:var(--dark); padding:14px 18px; border-radius:8px; font-size:15px; font-family:'DM Sans',sans-serif; outline:none; transition:border-color .2s; }
+  .fg input:focus,.fg textarea:focus,.fg select:focus { border-color:var(--accent); }
+  .fg input::placeholder,.fg textarea::placeholder { color:rgba(17,24,39,0.3); }
+  .fg textarea { min-height:130px; resize:vertical; }
+  .fg select option { background:#f3f4f6; }
+  .form-submit { background:var(--orange); color:#fff; border:none; padding:17px; border-radius:100px; font-size:16px; font-weight:600; cursor:pointer; transition:background .2s; margin-top:4px; }
+  .form-submit:hover { background:var(--orange-dark); }
+  /* ── FOOTER ── */
+  footer { background:var(--accent-dark); padding:60px 60px 36px; }
+  .footer-top { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:60px; margin-bottom:60px; }
+  .footer-brand p { font-size:14px; color:rgba(255,255,255,0.45); margin-top:16px; line-height:1.7; max-width:260px; }
+  .footer-col h5 { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.35); margin-bottom:20px; }
+  .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:12px; }
+  .footer-col a { color:rgba(255,255,255,0.6); text-decoration:none; font-size:14px; transition:color .2s; }
+  .footer-col a:hover { color:#fff; }
+  .footer-bottom { border-top:1px solid rgba(255,255,255,0.1); padding-top:28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; }
+  .footer-bottom p { font-size:13px; color:rgba(255,255,255,0.3); }
+  @media(max-width:768px){
+    nav { padding:0 24px; }
+    .nav-links { display:none; }
+    #hero,#intro,#diensten,#werkwijze,#over,#cases,#contact { padding:80px 24px; }
+    #intro,.over-grid,.contact-wrap { grid-template-columns:1fr; gap:40px; }
+    #stats { grid-template-columns:1fr; gap:40px; padding:50px 24px; }
+    .stat+.stat { border-left:none; padding-left:0; border-top:1.5px solid var(--light); padding-top:40px; }
+    .diensten-grid,.cases-grid,.stappen { grid-template-columns:1fr; }
+    .stap:nth-child(even) { border-left:none; }
+    .footer-top { grid-template-columns:1fr 1fr; gap:40px; }
+    .form-row { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <svg width="160" height="44" viewBox="0 0 160 44" xmlns="http://www.w3.org/2000/svg">
+      <text x="0" y="29" font-family="'Fraunces',Georgia,serif" font-size="27" font-weight="800" fill="#101926">Storio</text>
+      <text x="2" y="41" font-family="'DM Sans',sans-serif" font-size="7.5" font-weight="600" fill="#2e9e60" letter-spacing="3.5">PODCASTS</text>
+    </svg>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#diensten">Diensten</a></li>
+    <li><a href="#over">Over ons</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Start jouw podcast</button>
+</nav>
+<!-- HERO (paars) -->
+<section id="hero">
+  <div class="hero-eyebrow">Podcast productiebureau</div>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <h1>Podcasts die blijven hangen. Wij zorgen dat jouw verhaal gehoord wordt.</h1>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Plan een kennismaking</button>
+        <button class="btn-ghost" onclick="document.getElementById('diensten').scrollIntoView({behavior:'smooth'})">Bekijk onze diensten</button>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- INTRO (paars) -->
+<section id="intro">
+  <h2>Van idee tot podcast. Een format dat bij je past, en een verhaal dat mensen raakt.</h2>
+  <div class="intro-right">
+    <p>Storio Podcasts is productiepartner én sparringpartner voor iedereen die iets te zeggen heeft. We denken mee van het eerste idee tot de gepubliceerde aflevering, altijd bij jou op locatie en altijd op maat.</p>
+    <p>De een wil alles uit handen geven. De ander doet de opname liever zelf en heeft hulp nodig bij de rest. Wij luisteren eerst, en doen dan een voorstel dat bij jou past.</p>
+    <a href="#contact">Kom met ons in contact →</a>
+  </div>
+</section>
+<!-- STATS (wit) -->
+<div id="stats">
+  <div class="stat">
+    <div class="stat-num">74%</div>
+    <div class="stat-label">van luisteraars leert iets nieuws<br>van elke podcastaflevering</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">40%</div>
+    <div class="stat-label">meer mensen luisteren naar podcasts<br>dan vóór 2020</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">39%</div>
+    <div class="stat-label">van MKB-ondernemers luistert<br>regelmatig naar podcasts</div>
+  </div>
+</div>
+<!-- DIENSTEN -->
+<section id="diensten">
+  <div class="section-label">Wat we doen</div>
+  <h2>Alles wat jouw podcast nodig heeft, precies op maat.</h2>
+  <div class="diensten-grid">
+    <div class="dienst"><span class="dienst-n">01</span><h3>Concept & Format</h3><p>We bouwen jouw podcast van de grond af op. Wie is je luisteraar? Wat is je toon? Hoe blijft iemand luisteren? We leggen de basis voor een format met karakter.</p></div>
+    <div class="dienst"><span class="dienst-n">02</span><h3>Sparring & Strategie</h3><p>Soms heb je geen productiepartner nodig, maar iemand om mee te sparren. We denken mee over je format, je doelgroep en je aanpak. Vrijblijvend, maar met een duidelijk advies.</p></div>
+    <div class="dienst"><span class="dienst-n">03</span><h3>Opname & Regie</h3><p>Wij regisseren de opname bij jou op locatie. Of het nu puur audio is of een volledige video-opname: we halen het beste uit elke presentator en gast, zodat echte conversaties ook écht te horen en te zien zijn. Heb je zelf nog geen presentator? Geen probleem! Wij hebben een uitgebreid netwerk met professionals en zorgen voor de perfecte match.</p></div>
+    <div class="dienst"><span class="dienst-n">04</span><h3>Editing & Montage</h3><p>De ruwe opname wordt een strak eindproduct. Wij monteren tot een podcast die klinkt zoals jij het bedoeld had.</p></div>
+    <div class="dienst"><span class="dienst-n">05</span><h3>Publicatie & Distributie</h3><p>Van Spotify en Apple tot alle andere platformen: wij regelen alles. Cover art, metadata, timing. Jij publiceert, wij zorgen dat het klopt.</p></div>
+    <div class="dienst"><span class="dienst-n">06</span><h3>Snippets & Sociaal bereik</h3><p>Een podcast is meer dan audio. Wij knippen de sterkste momenten uit elke aflevering tot social snippets, inclusief professioneel bewerkte videofragmenten. Die bereiken via algoritmes een veelvoud aan mensen via Instagram, LinkedIn en TikTok.</p></div>
+  </div>
+</section>
+<!-- OVER -->
+<section id="over">
+  <div class="over-grid">
+    <div class="over-left">
+      <div class="section-label">Over ons</div>
+      <h2>Samen maken we een professionele podcast met <em>impact.</em></h2>
+      <a href="#contact">Leer ons kennen →</a>
+    </div>
+    <div class="over-right">
+      <p>Storio Podcasts is opgericht vanuit één overtuiging: elk verhaal verdient een goede microfoon. We werken voor merken, organisaties en individuen die iets te zeggen hebben, en dat goed willen zeggen.</p>
+      <p>Van het eerste idee tot de gepubliceerde aflevering ben je bij ons aan het juiste adres. Je hoeft nog geen kant-en-klaar plan te hebben. We denken graag mee vanaf het begin, ook als je nog aan het nadenken bent.</p>
+      <p>Elke samenwerking is anders. Volledig ontzorgd of alleen hulp bij de montage: wij maken altijd een voorstel dat past bij jou.</p>
+      <div class="values">
+        <div class="val"><h5>Verhaal centraal</h5><p>Techniek is middel. Het verhaal is het doel. Altijd.</p></div>
+        <div class="val"><h5>Op maat</h5><p>Geen standaardpakket. Altijd een voorstel dat bij jou past.</p></div>
+        <div class="val"><h5>Op locatie</h5><p>Wij komen naar jou toe. Geen eigen studio, wel overal thuis.</p></div>
+        <div class="val"><h5>Sparringpartner</h5><p>Van een korte brainstorm tot volledige begeleiding. Jij bepaalt.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="founder">
+    <img class="founder-img" src="hielke.jpg" alt="Hielke Boersma">
+    <div>
+      <div class="founder-name">Hielke Boersma</div>
+      <div class="founder-role">Oprichter Storio Podcasts</div>
+      <p class="founder-quote">Dankzij mijn jarenlange ervaring bij de landelijke radio ben ik overtuigd geraakt van de kracht van audio, en hoe bijzonder en persoonlijk luisteren is. Geen scherm, geen afleiding. Alleen een stem en een verhaal. Audio kruipt tussen je oren op een manier die geen ander medium evenaard.</p>
+      <p class="founder-quote">Daarom geloof ik zo sterk in podcasts. Geen vluchtige boodschap van tien seconden, maar een format waar mensen bewust voor kiezen. Met het juiste format maak je complexe onderwerpen toegankelijk, vertel je sterkere verhalen en bouw je een echte band op met je publiek.</p>
+      <p class="founder-quote">Een podcast is tegenwoordig ook de motor achter een bredere contentstrategie. Eén opname levert een aflevering op, maar ook tientallen korte videofragmenten en snippets voor sociale media. Die fragmenten zorgen voor zichtbaarheid, trekken nieuwe luisteraars aan en vergroten het bereik van je verhaal.</p>
+    </div>
+  </div>
+</section>
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-wrap">
+    <div class="contact-left">
+      <div class="section-label">Contact</div>
+      <h2>Laten we kennismaken.</h2>
+      <p>Plan een vrijblijvende kennismaking en ontdek wat Storio Podcasts voor jou kan betekenen. We stellen de juiste vragen, denken graag mee en ontdekken samen hoe jouw verhaal gaat klinken.</p>
+      <p class="contact-detail"><strong>Algemeen</strong><br><a href="mailto:hallo@storiopodcasts.nl">hallo@storiopodcasts.nl</a></p>
+      <p class="contact-detail"><strong>We horen graag van je.</strong></p>
+    </div>
+    <form class="contact-form" onsubmit="return false;">
+      <div class="form-row">
+        <div class="fg"><label>Naam</label><input type="text" placeholder="Jouw naam"></div>
+        <div class="fg"><label>E-mail</label><input type="email" placeholder="jouw@email.nl"></div>
+      </div>
+      <div class="fg"><label>Bedrijf of organisatie</label><input type="text" placeholder="Optioneel"></div>
+      <div class="fg">
+        <label>Waar ben je naar op zoek?</label>
+        <select><option value="" disabled selected>Maak een keuze</option><option>Volledige podcast productie</option><option>Concept & format ontwikkeling</option><option>Opname & editing</option><option>Strategie & groei</option><option>Ik weet het nog niet</option></select>
+      </div>
+      <div class="fg"><label>Vertel ons over jouw verhaal</label><textarea placeholder="Wat wil je vertellen? Voor wie? Wat heb je al?"></textarea></div>
+      <button type="submit" class="form-submit">Verstuur bericht →</button>
+    </form>
+  </div>
+</section>
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <svg width="160" height="44" viewBox="0 0 160 44" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="29" font-family="'Fraunces',Georgia,serif" font-size="27" font-weight="800" fill="white">Storio</text>
+        <text x="2" y="41" font-family="'DM Sans',sans-serif" font-size="7.5" font-weight="600" fill="#2e9e60" letter-spacing="3.5">PODCASTS</text>
+      </svg>
+      <p>Van idee tot gepubliceerde aflevering, voor merken en mensen met een verhaal.</p>
+    </div>
+    <div class="footer-col"><h5>Diensten</h5><ul><li><a href="#diensten">Concept & Format</a></li><li><a href="#diensten">Opname & Regie</a></li><li><a href="#diensten">Editing & Montage</a></li><li><a href="#diensten">Publicatie & Groei</a></li></ul></div>
+    <div class="footer-col"><h5>Bedrijf</h5><ul><li><a href="#over">Over ons</a></li><li><a href="#cases">Cases</a></li><li><a href="#werkwijze">Werkwijze</a></li><li><a href="#contact">Contact</a></li></ul></div>
+    <div class="footer-col"><h5>Contact</h5><ul>      <li><a href="mailto:hallo@storiopodcasts.nl">hallo@storiopodcasts.nl</a></li><li><a href="#">LinkedIn</a></li><li><a href="#">Instagram</a></li><li><a href="#">Spotify</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Storio Podcasts. Alle rechten voorbehouden.</p>
+    <p>Stories · Conversations · Messages</p>
+  </div>
+</footer>
+</body>
+</html>
