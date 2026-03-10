@@ -19,7 +19,7 @@
     --light:       rgba(17,24,39,0.08);
   }
   * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior:smooth; }
+  html { scroll-behavior:smooth; overflow-x:hidden; }
   body { background:#fff; color:var(--dark); font-family:'DM Sans',sans-serif; overflow-x:hidden; }
   /* ── NAV ── */
   nav {
@@ -160,15 +160,30 @@
   .footer-bottom { border-top:1px solid rgba(255,255,255,0.1); padding-top:28px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; }
   .footer-bottom p { font-size:13px; color:rgba(255,255,255,0.3); }
   @media(max-width:768px){
-    nav { padding:0 24px; }
+    nav { padding:0 20px; }
     .nav-links { display:none; }
-    #hero,#intro,#diensten,#werkwijze,#over,#cases,#contact { padding:80px 24px; }
-    #intro,.over-grid,.contact-wrap { grid-template-columns:1fr; gap:40px; }
-    #stats { grid-template-columns:1fr; gap:40px; padding:50px 24px; }
-    .stat+.stat { border-left:none; padding-left:0; border-top:1.5px solid var(--light); padding-top:40px; }
+    .nav-cta { padding:9px 18px; font-size:13px; }
+    #hero { padding:100px 20px 70px; }
+    #intro,#diensten,#werkwijze,#over,#cases,#contact { padding:70px 20px; }
+    #intro,.over-grid,.contact-wrap { grid-template-columns:1fr; gap:36px; }
+    #stats { grid-template-columns:1fr; gap:32px; padding:50px 20px; }
+    .stat+.stat { border-left:none; padding-left:0; border-top:1.5px solid var(--light); padding-top:32px; }
     .diensten-grid,.cases-grid,.stappen { grid-template-columns:1fr; }
     .stap:nth-child(even) { border-left:none; }
-    .footer-top { grid-template-columns:1fr 1fr; gap:40px; }
+    /* Founder: foto boven, tekst eronder */
+    .founder { grid-template-columns:1fr; gap:28px; margin-top:48px; padding-top:44px; }
+    .founder-img { width:100%; max-width:320px; height:240px; }
+    /* Values */
+    .values { gap:10px; margin-top:28px; }
+    .val { padding:18px; }
+    /* Dienst featured */
+    .dienst-featured { flex-direction:column; gap:16px; }
+    .dienst-featured h3 { width:auto; }
+    /* Footer */
+    footer { padding:50px 20px 28px; }
+    .footer-top { grid-template-columns:1fr 1fr; gap:32px; margin-bottom:40px; }
+    .footer-bottom { flex-direction:column; align-items:flex-start; gap:8px; }
+    /* Form */
     .form-row { grid-template-columns:1fr; }
   }
 </style>
