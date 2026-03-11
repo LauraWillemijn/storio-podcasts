@@ -170,8 +170,7 @@
   .logo-bar:nth-child(5) { animation-delay:1.2s; }
   /* ── HERO (paars) ── */
   #hero { background:linear-gradient(135deg,#c8f9d3 0%,#cff0dc 30%,#d2ddf0 60%,#d3d9f8 100%); padding:160px 60px 110px; }
-  .hero-inner { display:flex; align-items:center; justify-content:space-between; gap:60px; }
-  .hero-anim { flex-shrink:0; }
+  .hero-inner { display:block; }
   .hero-eyebrow { font-size:12px; font-weight:600; letter-spacing:2.5px; text-transform:uppercase; color:rgba(17,24,39,0.5); margin-bottom:28px; }
   #hero h1 { font-family:'DM Sans',sans-serif; font-size:clamp(36px,4.5vw,62px); font-weight:900; line-height:1.04; color:#101926; margin-bottom:32px; max-width:820px; }
   .hero-btns { display:flex; gap:14px; flex-wrap:wrap; }
@@ -297,7 +296,6 @@
     .nav-links { display:none; }
     .nav-cta { padding:9px 18px; font-size:13px; }
     #hero { padding:100px 20px 70px; }
-    .hero-anim { display:none; }
     #intro,#diensten,#werkwijze,#over,#cases,#contact { padding:70px 20px; }
     #intro,.over-grid,.contact-wrap { grid-template-columns:1fr; gap:36px; }
     #stats { grid-template-columns:1fr; gap:32px; padding:50px 20px; }
@@ -354,47 +352,6 @@
         <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Plan een kennismaking</button>
         <button class="btn-ghost" onclick="document.getElementById('diensten').scrollIntoView({behavior:'smooth'})">Bekijk onze diensten</button>
       </div>
-    </div>
-    <!-- Logo → mic animatie -->
-    <div class="hero-anim" aria-hidden="true">
-      <svg viewBox="0 0 110 148" style="width:min(160px,22vw);height:auto;overflow:visible" xmlns="http://www.w3.org/2000/svg">
-        <!-- Hoofdvorm: morpht van logo-vierkant naar mic-capsule -->
-        <rect fill="#172232">
-          <animate attributeName="x"      values="20;20;30;30;20" keyTimes="0;0.28;0.52;0.78;1" calcMode="spline" keySplines="0 0 1 1;0.42 0 0.58 1;0 0 1 1;0.42 0 0.58 1" dur="5s" repeatCount="indefinite"/>
-          <animate attributeName="y"      values="20;20;2;2;20"   keyTimes="0;0.28;0.52;0.78;1" calcMode="spline" keySplines="0 0 1 1;0.42 0 0.58 1;0 0 1 1;0.42 0 0.58 1" dur="5s" repeatCount="indefinite"/>
-          <animate attributeName="width"  values="70;70;50;50;70" keyTimes="0;0.28;0.52;0.78;1" calcMode="spline" keySplines="0 0 1 1;0.42 0 0.58 1;0 0 1 1;0.42 0 0.58 1" dur="5s" repeatCount="indefinite"/>
-          <animate attributeName="height" values="70;70;84;84;70" keyTimes="0;0.28;0.52;0.78;1" calcMode="spline" keySplines="0 0 1 1;0.42 0 0.58 1;0 0 1 1;0.42 0 0.58 1" dur="5s" repeatCount="indefinite"/>
-          <animate attributeName="rx"     values="14;14;25;25;14" keyTimes="0;0.28;0.52;0.78;1" calcMode="spline" keySplines="0 0 1 1;0.42 0 0.58 1;0 0 1 1;0.42 0 0.58 1" dur="5s" repeatCount="indefinite"/>
-        </rect>
-        <!-- S (logo-staat) -->
-        <text x="55" y="70" font-family="'Fraunces',Georgia,serif" font-size="42" font-weight="800" fill="white" text-anchor="middle">S
-          <animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;0.28;0.52;0.78;1" calcMode="spline" keySplines="0 0 1 1;0.4 0 0.6 1;0 0 1 1;0.4 0 0.6 1" dur="5s" repeatCount="indefinite"/>
-        </text>
-        <!-- PODCASTS (logo-staat) -->
-        <text x="55" y="103" font-family="'DM Sans',sans-serif" font-size="7" font-weight="600" fill="#2e9e60" text-anchor="middle" letter-spacing="3">PODCASTS
-          <animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;0.28;0.52;0.78;1" calcMode="spline" keySplines="0 0 1 1;0.4 0 0.6 1;0 0 1 1;0.4 0 0.6 1" dur="5s" repeatCount="indefinite"/>
-        </text>
-        <!-- Mic-stang -->
-        <line x1="55" y1="86" x2="55" y2="116" stroke="#172232" stroke-width="3" stroke-linecap="round" opacity="0">
-          <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.28;0.52;0.78;1" calcMode="spline" keySplines="0 0 1 1;0.4 0 0.6 1;0 0 1 1;0.4 0 0.6 1" dur="5s" repeatCount="indefinite"/>
-        </line>
-        <!-- Mic-voet (arc) -->
-        <path d="M37,114 Q55,131 73,114" fill="none" stroke="#172232" stroke-width="3" stroke-linecap="round" opacity="0">
-          <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.28;0.52;0.78;1" calcMode="spline" keySplines="0 0 1 1;0.4 0 0.6 1;0 0 1 1;0.4 0 0.6 1" dur="5s" repeatCount="indefinite"/>
-        </path>
-        <!-- Basis horizontale lijn -->
-        <line x1="46" y1="131" x2="64" y2="131" stroke="#172232" stroke-width="3" stroke-linecap="round" opacity="0">
-          <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.28;0.52;0.78;1" calcMode="spline" keySplines="0 0 1 1;0.4 0 0.6 1;0 0 1 1;0.4 0 0.6 1" dur="5s" repeatCount="indefinite"/>
-        </line>
-        <!-- Soundwave 1 -->
-        <path d="M84,22 Q93,44 84,66" fill="none" stroke="#2e9e60" stroke-width="2" stroke-linecap="round" opacity="0">
-          <animate attributeName="opacity" values="0;0;0;0.75;0" keyTimes="0;0.28;0.6;0.76;1" dur="5s" repeatCount="indefinite"/>
-        </path>
-        <!-- Soundwave 2 -->
-        <path d="M91,14 Q104,44 91,74" fill="none" stroke="#2e9e60" stroke-width="1.5" stroke-linecap="round" opacity="0">
-          <animate attributeName="opacity" values="0;0;0;0.4;0" keyTimes="0;0.28;0.64;0.8;1" dur="5s" repeatCount="indefinite"/>
-        </path>
-      </svg>
     </div>
   </div>
 </section>
