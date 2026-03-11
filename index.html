@@ -186,7 +186,7 @@
   .intro-right a:hover { color:#fff; text-decoration:underline; }
   .divider { border:none; border-top:1.5px solid var(--light); }
   /* ── STATS (wit) ── */
-  #stats { background:#fff; padding:70px 60px; display:grid; grid-template-columns:repeat(3,1fr); border-top:1.5px solid var(--light); border-bottom:1.5px solid var(--light); }
+  #stats { background:#fff; padding:70px 60px; display:grid; grid-template-columns:repeat(4,1fr); border-top:1.5px solid var(--light); border-bottom:1.5px solid var(--light); }
   .stat { padding-right:40px; }
   .stat+.stat { border-left:1.5px solid var(--light); padding-left:40px; }
   .stat-num { font-family:'DM Sans',sans-serif; font-size:64px; font-weight:900; color:var(--accent); line-height:1; margin-bottom:10px; }
@@ -298,8 +298,10 @@
     #hero { padding:100px 20px 70px; }
     #intro,#diensten,#werkwijze,#over,#cases,#contact { padding:70px 20px; }
     #intro,.over-grid,.contact-wrap { grid-template-columns:1fr; gap:36px; }
-    #stats { grid-template-columns:1fr; gap:32px; padding:50px 20px; }
-    .stat+.stat { border-left:none; padding-left:0; border-top:1.5px solid var(--light); padding-top:32px; }
+    #stats { grid-template-columns:repeat(2,1fr); gap:28px 16px; padding:50px 20px; }
+    .stat+.stat { border-left:none; padding-left:0; border-top:none; padding-top:0; }
+    .stat:nth-child(2n) { border-left:1.5px solid var(--light); padding-left:16px; }
+    .stat:nth-child(n+3) { border-top:1.5px solid var(--light); padding-top:28px; }
     .diensten-grid,.cases-grid,.stappen { grid-template-columns:1fr; }
     .stap:nth-child(even) { border-left:none; }
     /* Founder: foto boven, tekst eronder */
@@ -367,16 +369,20 @@
 <!-- STATS (wit) -->
 <div id="stats">
   <div class="stat">
-    <div class="stat-num">74%</div>
-    <div class="stat-label">van luisteraars leert iets nieuws<br>van elke podcastaflevering</div>
+    <div class="stat-num" data-target="80" data-suffix="%">80%</div>
+    <div class="stat-label">van luisteraars luistert elke<br>aflevering volledig af</div>
   </div>
   <div class="stat">
-    <div class="stat-num">40%</div>
-    <div class="stat-label">meer mensen luisteren naar podcasts<br>dan vóór 2020</div>
+    <div class="stat-num" data-target="55" data-suffix="%">55%</div>
+    <div class="stat-label">van alle Nederlanders heeft<br>minstens één podcast beluisterd</div>
   </div>
   <div class="stat">
-    <div class="stat-num">39%</div>
-    <div class="stat-label">van MKB-ondernemers luistert<br>regelmatig naar podcasts</div>
+    <div class="stat-num" data-target="54" data-suffix="%">54%</div>
+    <div class="stat-label">overweegt een merk vaker na<br>het horen in een podcast</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num" data-target="86" data-suffix="%">86%</div>
+    <div class="stat-label">neemt actie na het luisteren<br>naar branded podcast-content</div>
   </div>
 </div>
 <!-- DIENSTEN -->
@@ -612,6 +618,32 @@
         <p>Bedankt ${data.naam}. We nemen zo snel mogelijk contact met je op via <strong>${data.email}</strong>.</p>
       </div>`;
   });
+
+  // Stats count-up animatie
+  (function() {
+    const nums = document.querySelectorAll('.stat-num[data-target]');
+    if (!nums.length) return;
+    function animateAll() {
+      nums.forEach(el => {
+        const target = +el.dataset.target;
+        const suffix = el.dataset.suffix || '';
+        const duration = 1800;
+        const start = performance.now();
+        function tick(now) {
+          const t = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - t, 3);
+          el.textContent = Math.round(eased * target) + suffix;
+          if (t < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      });
+    }
+    const section = document.getElementById('stats');
+    const io = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) { animateAll(); io.disconnect(); }
+    }, { threshold: 0.35 });
+    io.observe(section);
+  })();
 </script>
 </body>
 </html>
