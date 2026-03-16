@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://storiopodcasts.nl/sitemap.xml
