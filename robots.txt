@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://storiopodcasts.nl/sitemap.xml
+# Samenvatting voor AI-assistenten: https://storiopodcasts.nl/llms.txt
